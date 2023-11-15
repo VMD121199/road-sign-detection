@@ -10,7 +10,6 @@ class SSD_Model:
         self,
         num_classes: int,
         input_size: tuple,
-        loss_weights: any,
         optimizer: any = "adam",
         losses: any = ["categorical_crossentropy", "mean_squared_error"],
     ) -> None:
