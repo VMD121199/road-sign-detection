@@ -51,7 +51,6 @@ class SSD_Model:
         model.compile(
             optimizer=optimizer,
             loss=losses,
-            # loss_weights=loss_weights,
             metrics=["accuracy"],
         )
         model.summary()
