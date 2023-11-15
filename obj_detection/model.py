@@ -1,9 +1,8 @@
 import tensorflow as tf
 from tensorflow.keras import layers
 from tensorflow.keras.models import Model
-from tensorflow.keras.preprocessing.image import ImageDataGenerator
-from tensorflow.keras.applications import VGG16
-import numpy as np
+from tensorflow.keras.applications import MobileNetV2, VGG16
+from tensorflow.keras.layers import Dense, Flatten, Input, Dropout
 
 
 class SSD_Model:
@@ -11,58 +10,71 @@ class SSD_Model:
         self,
         num_classes: int,
         input_size: tuple,
+        loss_weights: any,
         optimizer: any = "adam",
-        loss: any = ["categorical_crossentropy", "mse"],
+        losses: any = ["categorical_crossentropy", "mean_squared_error"],
     ) -> None:
-        input_images = layers.Input(shape=input_size, name="input_images")
-        input_bboxes = layers.Input(shape=(4,), name="input_bboxes")
+        input_images = Input(shape=input_size, name="input_images")
 
-        # Base VGG16 model
         base_model = VGG16(
             weights="imagenet", include_top=False, input_tensor=input_images
         )
+        base_model.trainable = False
         base_out = base_model.output
-        x = layers.Flatten()(base_out)
-        x = layers.Dense(1024, activation="relu")(x)
-        x = layers.Dense(1024, activation="relu")(x)
-        x = layers.Dropout(0.5)(x)
+        flatten_output = Flatten()(base_out)
+        bbox_layers = Dense(128, activation="relu")(flatten_output)
+        bbox_layers = Dense(64, activation="relu")(bbox_layers)
+        bbox_layers = Dropout(0.2)(bbox_layers)
+        bbox_layers = Dense(32, activation="relu")(bbox_layers)
+        bbox_layers = Dense(16, activation="relu")(bbox_layers)
+        bbox_layers = Dropout(0.2)(bbox_layers)
 
-        predictions = layers.Dense(
-            4, activation="sigmoid", name="predictions"
-        )(x)
+        label_layers = Dense(512, activation="relu")(flatten_output)
+        label_layers = Dense(512, activation="relu")(label_layers)
+        label_layers = Dropout(0.2)(label_layers)
+        label_layers = Dense(256, activation="relu")(label_layers)
+        label_layers = Dense(256, activation="relu")(label_layers)
+        label_layers = Dropout(0.2)(label_layers)
 
-        predictions_class = layers.Dense(
-            num_classes, activation="softmax", name="predictions_class"
-        )(x)
+        bounding_box = Dense(4, activation="sigmoid", name="bounding_box")(
+            bbox_layers
+        )
+
+        predictions_class = Dense(
+            num_classes, activation="softmax", name="class_label"
+        )(label_layers)
 
         model = Model(
-            inputs=[input_images, input_bboxes],
-            outputs=[predictions, predictions_class],
+            inputs=base_model.input,
+            outputs=(bounding_box, predictions_class),
         )
-        model.compile(optimizer=optimizer, loss=loss, metrics=["accuracy"])
-
+        model.compile(
+            optimizer=optimizer,
+            loss=losses,
+            # loss_weights=loss_weights,
+            metrics=["accuracy"],
+        )
+        model.summary()
         self.model = model
 
     def model_fit(
-        self, train_images, train_labels, val_images, val_labels, batch_size
+        self,
+        train_images,
+        train_targets,
+        val_images,
+        val_targets,
+        batch_size,
+        epochs,
     ):
-        train_bboxes = np.array([label["bbox"] for label in train_labels])
-        train_labels = np.array([label["label"] for label in train_labels])
-
-        val_bboxes = np.array([label["bbox"] for label in val_labels])
-        val_labels = np.array([label["label"] for label in val_labels])
-
         self.model.fit(
-            x=[np.array(train_images), train_bboxes],
-            y=[
-                train_bboxes,
-                train_labels,
-            ],
-            epochs=20,
+            train_images,
+            train_targets,
             validation_data=(
-                [np.array(val_images), val_bboxes],
-                [val_bboxes, val_labels],
+                val_images,
+                val_targets,
             ),
-            steps_per_epoch=len(train_images) // batch_size,
-            validation_steps=len(val_images) // batch_size,
+            epochs=epochs,
+            batch_size=batch_size,
+            verbose=1,
         )
+        self.model.save("../models/sign_dectection_model.pkt")
