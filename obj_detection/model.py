@@ -73,4 +73,3 @@ class SSD_Model:
             batch_size=batch_size,
             verbose=1,
         )
-        self.model.save("../models/sign_dectection_model.pb")
