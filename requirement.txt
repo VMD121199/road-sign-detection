@@ -1,0 +1,4 @@
+pybboxes
+label-studio
+tqdm
+tensorflow==2.10
