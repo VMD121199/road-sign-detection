@@ -1,5 +1,3 @@
-import tensorflow as tf
-from tensorflow.keras import layers
 from tensorflow.keras.models import Model
 from tensorflow.keras.applications import MobileNetV2, VGG16
 from tensorflow.keras.layers import Dense, Flatten, Input, Dropout
@@ -75,4 +73,4 @@ class SSD_Model:
             batch_size=batch_size,
             verbose=1,
         )
-        self.model.save("../models/sign_dectection_model.pkt")
+        self.model.save("../models/sign_dectection_model.pb")
