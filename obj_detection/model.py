@@ -1,6 +1,14 @@
-from tensorflow.keras.models import Model
-from tensorflow.keras.applications import MobileNetV2, VGG16
-from tensorflow.keras.layers import Dense, Flatten, Input, Dropout
+from tensorflow.keras.models import Model, Sequential
+from tensorflow.keras.applications import MobileNetV2, VGG19
+from tensorflow.keras.layers import (
+    Dense,
+    Flatten,
+    Input,
+    Dropout,
+    Conv2D,
+    MaxPooling2D,
+)
+from tensorflow.keras.callbacks import EarlyStopping
 
 
 class SSD_Model:
@@ -13,7 +21,8 @@ class SSD_Model:
     ) -> None:
         input_images = Input(shape=input_size, name="input_images")
 
-        base_model = VGG16(
+        # base_model = self.__model()
+        base_model = VGG19(
             weights="imagenet", include_top=False, input_tensor=input_images
         )
         base_model.trainable = False
@@ -21,17 +30,11 @@ class SSD_Model:
         flatten_output = Flatten()(base_out)
         bbox_layers = Dense(128, activation="relu")(flatten_output)
         bbox_layers = Dense(64, activation="relu")(bbox_layers)
-        bbox_layers = Dropout(0.2)(bbox_layers)
-        bbox_layers = Dense(32, activation="relu")(bbox_layers)
-        bbox_layers = Dense(16, activation="relu")(bbox_layers)
-        bbox_layers = Dropout(0.2)(bbox_layers)
 
-        label_layers = Dense(512, activation="relu")(flatten_output)
-        label_layers = Dense(512, activation="relu")(label_layers)
-        label_layers = Dropout(0.2)(label_layers)
-        label_layers = Dense(256, activation="relu")(label_layers)
-        label_layers = Dense(256, activation="relu")(label_layers)
-        label_layers = Dropout(0.2)(label_layers)
+        # label_layers = Dense(512, activation="relu")()
+        # label_layers = Dropout(0.2)(label_layers)
+        label_layers = Dense(256, activation="relu")(flatten_output)
+        label_layers = Dense(128, activation="relu")(label_layers)
 
         bounding_box = Dense(4, activation="sigmoid", name="bounding_box")(
             bbox_layers
@@ -53,6 +56,34 @@ class SSD_Model:
         model.summary()
         self.model = model
 
+    def __vgg19_implemented(self):
+        x = Conv2D(64, (3, 3), activation="relu")
+        x = Conv2D(64, (3, 3), activation="relu")(x)
+        x = MaxPooling2D(2, 2)(x)
+
+        x = Conv2D(128, (3, 3), activation="relu")(x)
+        x = Conv2D(128, (3, 3), activation="relu")(x)
+        x = MaxPooling2D(2, 2)(x)
+
+        x = Conv2D(256, (3, 3), activation="relu")(x)
+        x = Conv2D(256, (3, 3), activation="relu")(x)
+        x = Conv2D(256, (3, 3), activation="relu")(x)
+        x = Conv2D(256, (3, 3), activation="relu")(x)
+        x = MaxPooling2D(2, 2)(x)
+
+        x = Conv2D(512, (3, 3), activation="relu")(x)
+        x = Conv2D(512, (3, 3), activation="relu")(x)
+        x = Conv2D(512, (3, 3), activation="relu")(x)
+        x = Conv2D(512, (3, 3), activation="relu")(x)
+        x = MaxPooling2D(2, 2)(x)
+
+        x = Conv2D(512, (3, 3), activation="relu")(x)
+        x = Conv2D(512, (3, 3), activation="relu")(x)
+        x = Conv2D(512, (3, 3), activation="relu")(x)
+        x = Conv2D(512, (3, 3), activation="relu")(x)
+        x = MaxPooling2D(2, 2)(x)
+        return x
+
     def model_fit(
         self,
         train_images,
@@ -62,6 +93,9 @@ class SSD_Model:
         batch_size,
         epochs,
     ):
+        callback = EarlyStopping(
+            monitor="val_loss", patience=5, restore_best_weights=True
+        )
         self.model.fit(
             train_images,
             train_targets,
@@ -72,4 +106,5 @@ class SSD_Model:
             epochs=epochs,
             batch_size=batch_size,
             verbose=1,
+            callbacks=[callback],
         )
