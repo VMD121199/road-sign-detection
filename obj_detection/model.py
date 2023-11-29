@@ -1,5 +1,5 @@
 from tensorflow.keras.models import Model, Sequential
-from tensorflow.keras.applications import MobileNetV2, VGG19
+from tensorflow.keras.applications import MobileNetV2, VGG19, VGG16
 from tensorflow.keras.layers import (
     Dense,
     Flatten,
@@ -9,6 +9,7 @@ from tensorflow.keras.layers import (
     MaxPooling2D,
 )
 from tensorflow.keras.callbacks import EarlyStopping
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 
 class SSD_Model:
@@ -22,7 +23,7 @@ class SSD_Model:
         input_images = Input(shape=input_size, name="input_images")
 
         # base_model = self.__model()
-        base_model = VGG19(
+        base_model = VGG16(
             weights="imagenet", include_top=False, input_tensor=input_images
         )
         base_model.trainable = False
@@ -84,6 +85,10 @@ class SSD_Model:
         x = MaxPooling2D(2, 2)(x)
         return x
 
+    # def data_generator(images):
+    #     images =
+    #     pass
+
     def model_fit(
         self,
         train_images,
@@ -94,7 +99,9 @@ class SSD_Model:
         epochs,
     ):
         callback = EarlyStopping(
-            monitor="val_loss", patience=5, restore_best_weights=True
+            monitor="val_loss",
+            patience=3,
+            restore_best_weights=True,
         )
         self.model.fit(
             train_images,
