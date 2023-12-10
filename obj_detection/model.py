@@ -28,7 +28,7 @@ class SSD_Model:
         )
         base_model.trainable = False
         base_out = base_model.output
-        flatten_output = Flatten()(base_out)
+        flatten_output = Flatten()(base_out) # transform matrix into array 1D
         bbox_layers = Dense(128, activation="relu")(flatten_output)
         bbox_layers = Dense(64, activation="relu")(bbox_layers)
 
@@ -57,7 +57,7 @@ class SSD_Model:
         model.summary()
         self.model = model
 
-    def __vgg19_implemented(self):
+    def __vgg19_implemented(self):#working with matrix with maximum depth = 3 return matrix 2D with n depth
         x = Conv2D(64, (3, 3), activation="relu")
         x = Conv2D(64, (3, 3), activation="relu")(x)
         x = MaxPooling2D(2, 2)(x)
