@@ -55,6 +55,7 @@ For your convenience, we provide a pre-trained model [link to pre-trained model 
 
 Our road sign detection system demonstrates robust performance across various scenarios. Below are some visual examples showcasing the system's capabilities:
 
+
 **SSD16:**
 
 ![Example 2](images/image_2.png)
