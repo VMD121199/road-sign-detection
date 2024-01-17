@@ -37,11 +37,11 @@ Our road sign detection model was trained using a diverse dataset of road sign i
 
 ### Training Process
 
-1. **Data Preprocessing:** Images were resized to a standard input size of [specify dimensions], and data augmentation techniques such as rotation, flipping, and brightness adjustment were applied to enhance model generalization.
+1. **Data Preprocessing:** Images were resized to a standard input size of (300, 300) for SSD and (320, 320) for Yolov8, and data augmentation techniques such as rotation, flipping, and brightness adjustment were applied to enhance model generalization.
 
-2. **Model Configuration:** I configured the [insert model architecture] with [insert hyperparameters] for optimal performance.
+2. **Model Configuration:** I configured the VGG16 with a carefully chosen learning rate, optimizer, loss function, batch size, and number of epochs for optimal performance.
 
-3. **Training:** The model was trained for Z epochs using the Adam optimizer, and the learning rate was dynamically adjusted using [insert learning rate scheduler method] to ensure convergence.
+3. **Training:** The model was trained for Z epochs using the Adam optimizer, cost is calculated by location loss and label loss.
 
 4. **Evaluation:** The trained model was evaluated on a separate validation dataset, achieving an accuracy of A%.
 
