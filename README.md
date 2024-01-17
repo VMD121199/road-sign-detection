@@ -33,7 +33,7 @@ This project aims to develop a robust and accurate road sign detection system us
 
 ## Model Training
 
-Our road sign detection model was trained using a diverse dataset of road sign images collected from various sources. The dataset comprises X categories of road signs, totaling Y images. I utilized the [insert name of the model architecture or algorithm] implemented in [insert framework/library, e.g., TensorFlow] for training.
+My road sign detection model was trained using a diverse dataset of road sign images collected from various sources. The dataset comprises 4 categories of road signs, totaling Y images. I utilized the [insert name of the model architecture or algorithm] implemented in [insert framework/library, e.g., TensorFlow] for training.
 
 ### Training Process
 
@@ -43,7 +43,7 @@ Our road sign detection model was trained using a diverse dataset of road sign i
 
 3. **Training:** The model was trained for Z epochs using the Adam optimizer, cost is calculated by location loss and label loss.
 
-4. **Evaluation:** The trained model was evaluated on a separate validation dataset, achieving an accuracy of A%.
+4. **Evaluation:** The trained model was evaluated on a separate validation dataset, achieving an accuracy of 78.71% for label accuracy and 70.68% for bounding box accuracy.
 
 5. **Fine-tuning (Optional):** Fine-tuning on specific road sign categories or regions of interest was performed to improve model accuracy in critical areas.
 
