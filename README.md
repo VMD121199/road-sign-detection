@@ -2,7 +2,7 @@
 
 ## Overview
 
-This project aims to develop a robust and accurate road sign detection system using PyTorch, Tensorflow, and Yolov8. The system is designed to identify and locate various types of road signs in images and video streams, contributing to enhanced road safety and autonomous driving capabilities.
+This project aims to develop a robust and accurate road sign detection system using PyTorch, Tensorflow, and Yolov8. The system is designed to identify and locate various road signs in images and video streams, contributing to enhanced road safety and autonomous driving capabilities.
 
 ## Features
 
@@ -27,36 +27,28 @@ This project aims to develop a robust and accurate road sign detection system us
 
 <!-- 3. [Add any specific installation instructions or additional dependencies if needed.] -->
 
-## Usage
-
-[Provide clear instructions on how to use your road sign detection system. Include sample code snippets, command-line instructions, or usage examples.]
-
 ## Model Training
 
-My road sign detection model was trained using a diverse dataset of road sign images collected from various sources. The dataset comprises 4 categories of road signs, totaling Y images. I utilized the [insert name of the model architecture or algorithm] implemented in [insert framework/library, e.g., TensorFlow] for training.
+My road sign detection model was trained using a diverse dataset of road sign images collected from various sources. The dataset comprises 4 categories of road signs, totaling 877 images. I utilized the SSD300 implemented with VGG16 from Keras for training, I use one more method Yolov8 to compare the performance of 2 methods SSD and YOLO.
 
 ### Training Process
 
-1. **Data Preprocessing:** Images were resized to a standard input size of (300, 300) for SSD and (320, 320) for Yolov8, and data augmentation techniques such as rotation, flipping, and brightness adjustment were applied to enhance model generalization.
+1. **Data Preprocessing:** Images were resized to a standard input size of (300, 300) for SSD and (320, 320) for Yolov8.
 
 2. **Model Configuration:** I configured the VGG16 with a carefully chosen learning rate, optimizer, loss function, batch size, and number of epochs for optimal performance.
 
-3. **Training:** The model was trained for Z epochs using the Adam optimizer, cost is calculated by location loss and label loss.
+3. **Training:** The model was trained for 15 epochs using the Adam optimizer, cost is calculated by location loss and label loss.
 
 4. **Evaluation:** The trained model was evaluated on a separate validation dataset, achieving an accuracy of 78.71% for label accuracy and 70.68% for bounding box accuracy.
 
 5. **Fine-tuning (Optional):** Fine-tuning on specific road sign categories or regions of interest was performed to improve model accuracy in critical areas.
-
-### Pre-trained Models
-
-For your convenience, I provide a pre-trained model [link to pre-trained model file]. You can use this model for road sign detection without the need for retraining or as a starting point for further customization.
 
 ## Results
 
 Our road sign detection system demonstrates robust performance across various scenarios. Below are some visual examples showcasing the system's capabilities:
 
 
-**SSD16:**
+**SSD300:**
 
 ![Example 2](images/image_2.png)
 
@@ -68,8 +60,8 @@ Our road sign detection system demonstrates robust performance across various sc
 
 1. **SSD:**
 
-- **Label Accuracy:** 79.15%
-- **Bounding box accuracy:** 71.5%
+- **Label Accuracy:** 78.71%
+- **Bounding box accuracy:** 70.68%
 
 2. **Yolov8:**
 
