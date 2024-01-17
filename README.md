@@ -2,7 +2,7 @@
 
 ## Overview
 
-This project aims to develop a robust and accurate road sign detection system using PyTorch, Tensorflow and Yolov5. The system is designed to identify and locate various types of road signs in images and video streams, contributing to enhanced road safety and autonomous driving capabilities.
+This project aims to develop a robust and accurate road sign detection system using PyTorch, Tensorflow, and Yolov8. The system is designed to identify and locate various types of road signs in images and video streams, contributing to enhanced road safety and autonomous driving capabilities.
 
 ## Features
 
@@ -33,13 +33,13 @@ This project aims to develop a robust and accurate road sign detection system us
 
 ## Model Training
 
-Our road sign detection model was trained using a diverse dataset of road sign images collected from various sources. The dataset comprises X categories of road signs, totaling Y images. We utilized the [insert name of the model architecture or algorithm] implemented in [insert framework/library, e.g., TensorFlow] for training.
+Our road sign detection model was trained using a diverse dataset of road sign images collected from various sources. The dataset comprises X categories of road signs, totaling Y images. I utilized the [insert name of the model architecture or algorithm] implemented in [insert framework/library, e.g., TensorFlow] for training.
 
 ### Training Process
 
 1. **Data Preprocessing:** Images were resized to a standard input size of [specify dimensions], and data augmentation techniques such as rotation, flipping, and brightness adjustment were applied to enhance model generalization.
 
-2. **Model Configuration:** We configured the [insert model architecture] with [insert hyperparameters] for optimal performance.
+2. **Model Configuration:** I configured the [insert model architecture] with [insert hyperparameters] for optimal performance.
 
 3. **Training:** The model was trained for Z epochs using the Adam optimizer, and the learning rate was dynamically adjusted using [insert learning rate scheduler method] to ensure convergence.
 
@@ -49,7 +49,7 @@ Our road sign detection model was trained using a diverse dataset of road sign i
 
 ### Pre-trained Models
 
-For your convenience, we provide a pre-trained model [link to pre-trained model file]. You can use this model for road sign detection without the need for retraining, or as a starting point for further customization.
+For your convenience, I provide a pre-trained model [link to pre-trained model file]. You can use this model for road sign detection without the need for retraining or as a starting point for further customization.
 
 ## Results
 
@@ -60,7 +60,7 @@ Our road sign detection system demonstrates robust performance across various sc
 
 ![Example 2](images/image_2.png)
 
-**YOLO v5:**
+**YOLO v8:**
 
 ![Example 1](images/image_1.png)
 
@@ -68,19 +68,19 @@ Our road sign detection system demonstrates robust performance across various sc
 
 1. **SSD:**
 
-- **Label accuracy:** 79.15%
+- **Label Accuracy:** 79.15%
 - **Bounding box accuracy:** 71.5%
 
-2. **YOLOv5:**
+2. **Yolov8:**
 
-- **Precision:** 92.8%
-- **Recall:** 81.7%
-- **mAP50:** 88.7%
-- **mAP50-95:** 60.8%
+- **Precision:** 86.9%
+- **Recall:** 81.2%
+- **mAP50:** 87.1%
+- **mAP50-95:** 71.7%
 
 ## Contributing
 
-We welcome contributions from the community to enhance and improve this road sign detection project. If you would like to contribute, please follow these guidelines:
+I always welcome contributions from the community to enhance and improve this road sign detection project. If you would like to contribute, please follow these guidelines:
 
 1. Fork the repository.
 2. Create a new branch for your feature or bug fix.
